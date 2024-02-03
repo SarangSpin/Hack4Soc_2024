@@ -47,12 +47,18 @@ function Home() {
   
       <p style={textStyle}><strong>Join Our Community:</strong> Join the growing community of users who rely on us for their document printing needs. Experience the convenience of modern technology combined with local printing expertise.</p>
       <p style={textStyle}><strong>Customer Support:</strong> Have questions or need assistance? Our dedicated customer support team is here to help you every step of the way.</p>
-      <a onClick={(e)=>{e.preventDefault(); navigate("/login")}} style={btnStyle}>Sign In</a>
-      <Link to="/submitorder" style={linkStyles}>
+      {/* <a onClick={(e)=>{e.preventDefault(); navigate("/login")}} style={btnStyle}>Sign In</a> */}
+      {/* <Link to="/submitorder" style={linkStyles}>
           New Order
-        </Link>
+        </Link> */}
+         <p style={textStyle}>Print it your way, the easy way</p>
+        <a onClick={(e)=>{e.preventDefault(); navigate("/signup")}} style={btnStyle}>New user? Sign up</a>
+     
+
         
-      <p style={textStyle}>Print it your way, the easy way</p>
+
+      
+
     </div>
     </>
   );

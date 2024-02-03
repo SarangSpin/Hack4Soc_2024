@@ -4,6 +4,8 @@ import { auth } from "../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import {  db } from "../config/firebase";
+import { getDocs, collection } from "firebase/firestore";
 const navbarStyles = {
   backgroundColor: "#333",
   color: "#fff",
@@ -40,7 +42,19 @@ function Navbar() {
   const [user] = useAuthState(auth);
   const [name, setname] = useState(auth.currentUser?.displayName);
   const [logo, setlogo] = useState(auth.currentUser?.photoURL);
+  const [navoptions, setnavoptions] = useState(false);
   useEffect(() => {
+
+    // const postsRef = collection(db, "vendors");
+    // const data = await getDocs(postsRef);
+    // console.log(data.docs[0].data())
+    // let i=0;
+    // for ( i = 0; i < data.docs.length; i++) {
+    //     if(data.docs[i].data().email == auth.currentUser?.email){
+    //         setnavoptions(true);
+    //         i=data.docs.length+1;
+           
+    //     }
     if(user?.email === "printoproject123@gmail.com"){navigate("/submissions")}
     console.log(auth.currentUser);
     if (name == null || name == "" || auth.currentUser == null) {
@@ -49,6 +63,11 @@ function Navbar() {
     if(user?.email === "printoproject123@gmail.com"){navigate("/submissions")}
     setname(auth.currentUser?.displayName);
     setlogo(auth.currentUser?.photoURL);
+    console.log(auth);
+    console.log(auth.currentUser);
+
+
+    
   }, [auth.currentUser, user]);
   const signUserOut = async () => {
     await signOut(auth);
@@ -67,6 +86,8 @@ function Navbar() {
         <Link to="/login" style={linkStyles}>
           LOGIN
         </Link>
+
+       
         </>
       ) : (<>
         <Link to={`/review-applications?user=${auth.currentUser?.uid}`}  style={linkStyles}>
@@ -74,6 +95,9 @@ function Navbar() {
       </Link>
         <Link to="/submitorder" style={linkStyles}>
           Submit File
+        </Link>
+        <Link to="/vendor_signup" style={linkStyles}>
+          Become a printing service provider
         </Link>
         </>
       )}</>
