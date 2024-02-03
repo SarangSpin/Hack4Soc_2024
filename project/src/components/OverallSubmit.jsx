@@ -361,13 +361,28 @@ let vendors = [];
     try { 
       const formData = new FormData();
       formData.append('file', fileUpload);
+      console.log(fileUpload);
 
       // Replace 'YOUR_WEBHDFS_ENDPOINT' with the actual WebHDFS endpoint
-      const webHdfsEndpoint = 'http://0.0.0.0:9870';
-      const uploadUrl = `${webHdfsEndpoint}/webhdfs/v1/path/to/upload?op=create`;
-
+      const webHdfsEndpoint = 'http://192.168.204.50:9870';
+     // const uploadUrl = "http://192.168.204.50:9870/webhdfs/v1/new_dir/lol.txt?user.name=hduser&op=create";
+     const uploadUrl = `http://192.168.204.52:9864/webhdfs/v1/${user.uid}/${fileUpload.name}?op=CREATE&user.name=hduser&namenoderpcaddress=master:9000&createflag=&createparent=true&overwrite=false`
       // Make a POST request to upload the file
-      await axios.post(uploadUrl, formData);
+      //await axios.put(uploadUrl, formData, {maxRedirects: 3} ).then((res)=>{console.log(res)}).catch((err)=>{console.log(err)});
+   // await axios.get("http://192.168.204.50:9870/webhdfs/v1/filenew.txt?user.name=hduser&op=GETFILESTATUS").then((res)=>{console.log(res)})
+     fetch(uploadUrl, {
+      method: 'PUT',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+     }).then((res)=>{
+      console.log(res)
+      if(res.redirected){
+        console.log(res.url)
+      }
+    
+    }).catch((err)=>{console.log(err)});
 
       console.log('File uploaded successfully');
     } catch (error) {
