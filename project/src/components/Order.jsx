@@ -48,14 +48,18 @@ function Order(props) {
     <>
     { (!(status?.completeStatus) && status?.user !== order?.user)  &&  
         <tr style={colorStatus()}>
+          <tr>
           <td>{start == order?.filepath ? <button onClick={() => updateDatabase()}>Mark Done</button>  : ""}
           </td>
-          <th>{order?.timestamp.seconds}</th>
+          <th>{(new Date(order?.timestamp?.seconds*1000)).toUTCString()}</th>
+          </tr>
+          <tr>
           <th>{order?.user}</th>
-          <th>{order?.orderdetails}</th>
-          <th>{order?.paymentMode}</th>
-          <th>{order?.paymentstatus}</th>
+          <th>{order?.color}</th>
+          <th>{order?.description}</th>
           <th>{order?.completeStatus === false ? "Pending" : "Completed" }</th>
+          </tr>
+          <br />
           <th>
             
               <button onClick={() => handleDownload()}>Proceed</button>

@@ -55,12 +55,12 @@ function Navbar() {
     //         i=data.docs.length+1;
            
     //     }
-    if(user?.email === "printoproject123@gmail.com"){navigate("/submissions")}
+    
     console.log(auth.currentUser);
-    if (name == null || name == "" || auth.currentUser == null) {
+    if (auth.currentUser == null) {
       navigate("/");
     }
-    if(user?.email === "printoproject123@gmail.com"){navigate("/submissions")}
+    //if(user?.email === "printoproject123@gmail.com"){navigate("/submissions")}
     setname(auth.currentUser?.displayName);
     setlogo(auth.currentUser?.photoURL);
     console.log(auth);
@@ -102,9 +102,9 @@ function Navbar() {
         </>
       )}</>
 }
- {(user?.email === "printoproject123@gmail.com") && <Link to="/submissions" style={linkStyles}>
+ {/* {(user?.email === "printoproject123@gmail.com") && <Link to="/submissions" style={linkStyles}>
         SUBMISSIONS
-      </Link>}
+      </Link>} */}
 
       {user && (
         <div style={userStyles}>
