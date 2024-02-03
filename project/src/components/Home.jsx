@@ -53,7 +53,7 @@ function Home() {
         </Link> */}
          <p style={textStyle}>Print it your way, the easy way</p>
         <a onClick={(e)=>{e.preventDefault(); navigate("/signup")}} style={btnStyle}>New user? Sign up</a>
-     
+        <a onClick={(e)=>{e.preventDefault(); navigate("/vlogin")}} style={btnStyle}>Sign in as printer vendor</a>
 
         
 

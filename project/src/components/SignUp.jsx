@@ -143,7 +143,7 @@ function SignUp() {
 
     </form>
 
-    <a href="/vendor_signup">Create accound as printing service provider</a>
+   
           
         </div>
 

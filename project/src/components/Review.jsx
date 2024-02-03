@@ -2,8 +2,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
-import { getDocs, collection } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { getDocs, collection, doc, deleteDoc } from "firebase/firestore";
+import { db,  } from "../config/firebase";
 import Order from "./Order";
 function ReviewOrders() {
 
@@ -13,9 +13,11 @@ function ReviewOrders() {
   const [ordersList, setOrdersList] = useState(null);
   const postsRef = collection(db, "orders");
 
+
+
   const getOrders = async () => {
     let data = await getDocs(postsRef);
-    console.log(data)
+    
     console.log(searchParams.get('user'))
 
     setOrdersList(data)
@@ -43,17 +45,31 @@ function ReviewOrders() {
     <div>
     <table>
       {ordersList?.map((order) => {
-        if (order.completeStatus === false && order.userid === searchParams.get('user')) {
+        if ( order.userid === searchParams.get('user')) {
           return <tr>
-         
-          <th>{order?.timestamp.seconds}</th>
+          <tr>
+
           <th>{order?.user}</th>
-          <th>{order?.transactionid}</th>
-          <th>{order?.orderdetails}</th>
-          <th>{order?.paymentMode}</th>
-          <th>{order?.paymentstatus}</th>
+          <th>{order?.color}</th>
+          <th>{(new Date(order?.timestamp?.seconds*1000)).toUTCString()}</th>
+          <th>{order?.vendor}</th>
+          </tr>
+          <tr>
+
+          <th>{order?.paperType}</th>
           <th>{order?.completeStatus === false ? "Pending" : "Completed" }</th>
+          <th>{order?.description}</th>
+          <td>{order?.completeStatus === true ? <button onClick={async() => {
+            
+            await deleteDoc(doc(db, "orders", order?.id));
+            alert('Order completed and deleted')
+          }}>Order Picked Up</button>  : ""}
+          </td>
+
         
+        
+        </tr>
+        <br />
         </tr>;
         }
       })}

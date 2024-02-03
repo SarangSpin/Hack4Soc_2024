@@ -1,7 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { getDocs, collection } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { auth, db } from "../config/firebase";
 import Order from "./Order";
+
 function PendingOrders() {
   const [ordersList, setOrdersList] = useState(null);
   const postsRef = collection(db, "orders");
@@ -26,7 +27,7 @@ function PendingOrders() {
     <div>
     <table>
       {ordersList?.map((order) => {
-        if (order.completeStatus === false) {
+        if (order.completeStatus === false  && order.vendor_id === auth.currentUser?.email) {
           return <Order order={order} />;
         }
       })}

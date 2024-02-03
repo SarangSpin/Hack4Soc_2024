@@ -285,7 +285,7 @@ function OverallSubmit() {
   const schema = yup.object().shape({
     color: yup.string().required("Color is required"),
     paperType: yup.string().required("Paper type is required"),
-    
+    timestamp: yup.date().default(() => new Date()),
     printMode: yup.string().required("Print mode is required"),
     description: yup.string(),
     vendor: yup.string().required("Vendor is required"),
@@ -306,6 +306,7 @@ function OverallSubmit() {
 
    const [vendorlist, setVendors] = useState([]);
    const [cost, setCost] = useState(0);
+   const [vendorEmail, setVendorEmail] = useState('');
 
   const getDocdata = async()=>{
    const postsRefV = collection(db, "vendors");
@@ -313,8 +314,9 @@ function OverallSubmit() {
     console.log(data.docs[0].data())
     let i=0;
 let vendors = [];
+
     for ( i = 0; i < data.docs.length; i++) {
-        vendors[i] = data.docs[i].data().store_name + ', ' + data.docs[i].data().address;
+        vendors[i] = data.docs[i].data().store_name + ', ' + data.docs[i].data().address +'---' + data.docs[i].data().email  ;
   }
   setVendors(vendors);
 
@@ -348,6 +350,8 @@ let vendors = [];
       userid: user?.uid,
       size: fileUpload.size,
       filepath: fileLink,
+      completeStatus: false,
+      vendor_id: vendorEmail
     });
    alert('Order placed ') 
     navigate("/");
@@ -393,6 +397,18 @@ let vendors = [];
 
   };
   
+  const handleVendorSelect =(e)=>{
+    const selectedVendor = e.target.value;
+    
+    // Find the selected vendor's email from the vendor list
+    const selectedVendorData = vendorlist.find((vendor) => vendor === selectedVendor);
+
+    if (selectedVendorData) {
+      // Extract the email from the selected vendor's data
+      const selectedVendorEmail = selectedVendorData.split('---')[1];
+      setVendorEmail(selectedVendorEmail);
+    }
+  }
 
   const handleUpload = () => {
 
@@ -477,7 +493,7 @@ let vendors = [];
         />
          <p style={errorStyle}>{errors.description?.message}</p>
 <div>Printing vendor</div>
-        <select style={inputStyle} {...register("vendor")}>
+        <select style={inputStyle} {...register("vendor")} onChange={handleVendorSelect}>
         <option value="--">--</option>
           {vendorlist.map((vendor) => (
             <option key={vendor} value={vendor}>
