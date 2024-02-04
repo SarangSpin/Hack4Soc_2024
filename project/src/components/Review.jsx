@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 import { getDocs, collection, doc, deleteDoc } from "firebase/firestore";
-import { db,  } from "../config/firebase";
+import { db, auth  } from "../config/firebase";
 import Order from "./Order";
 function ReviewOrders() {
 
@@ -62,7 +62,16 @@ function ReviewOrders() {
           <td>{order?.completeStatus === true ? <button onClick={async() => {
             
             await deleteDoc(doc(db, "orders", order?.id));
-            alert('Order completed and deleted')
+            
+            const uploadUrl = `http://192.168.204.50:9870/webhdfs/v1/${auth.currentUser?.uid}/${order?.filename}?user.name=hduser&op=delete`;
+            fetch(uploadUrl, {
+              method: 'DELETE'
+             }).then((res)=>{
+              console.log(res)
+              alert('Order completed and deleted')
+            
+            }).catch((err)=>{console.log(err)});
+            
           }}>Order Picked Up</button>  : ""}
           </td>
 

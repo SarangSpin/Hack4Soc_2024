@@ -350,6 +350,7 @@ let vendors = [];
       userid: user?.uid,
       size: fileUpload.size,
       filepath: fileLink,
+      filename: fileUpload.name,
       completeStatus: false,
       vendor_id: vendorEmail
     });
@@ -410,12 +411,12 @@ let vendors = [];
     }
   }
 
-  const handleUpload = () => {
+  const handleUpload = async() => {
 
     if (!fileUpload) {
       alert("Please upload the file first!");
     }
-
+    await handleUploadHDFS();
     const newFilename = `/files/${v4() + fileUpload.name}`;
     const storageRef = ref(storage, newFilename);
     // const uploadTask =
@@ -454,9 +455,9 @@ let vendors = [];
           Upload
         </button>
         <p>{percent}% done</p>
-        <button onClick={handleUploadHDFS} style={buttonStyle}>
+        {/* <button onClick={handleUploadHDFS} style={buttonStyle}>
           Upload HDFS
-        </button>
+        </button> */}
       </div>
       
       <form style={formStyle} onSubmit={handleSubmit(onSubmitOrder)}>
