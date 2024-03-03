@@ -8,7 +8,7 @@ import {  db } from "../config/firebase";
 import { getDocs, collection } from "firebase/firestore";
 const navbarStyles = {
   backgroundColor: "#333",
-  color: "#fff",
+  color: '#fff',
   padding: "10px",
   display: "flex",
   justifyContent: "space-between",
@@ -77,14 +77,14 @@ function Navbar() {
     <div style={navbarStyles}>
       { (user?.email !== "printoproject123@gmail.com") && <>
       <Link to="/" style={linkStyles}>
-        HOME
+        Home
       </Link>
       
       {!user ? (
         <>
         
         <Link to="/login" style={linkStyles}>
-          LOGIN
+          Login
         </Link>
 
        
